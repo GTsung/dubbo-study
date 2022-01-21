@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+       xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo = "http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation = "http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://code.alibabatech.com/schema/dubbo
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!--當前服務名稱指定-->
+    <dubbo:application name="user-service-provider"></dubbo:application>
+
+    <!--注冊中心-->
+    <dubbo:registry address="zookeeper://localhost:2181"></dubbo:registry>
+
+    <!--指定通信規則，協議及端口-->
+    <dubbo:protocol name="dubbo" port="21880"></dubbo:protocol>
+    
+    <!--暴露的服務-->
+    <dubbo:service interface="com.gt.gmail.service.UserService" ref="userServiceImpl"></dubbo:service>
+    
+    <!--服務實現-->
+    <bean id="userServiceImpl" class="com.gt.gmail.service.impl.UserServiceImpl"/>
+
+    <dubbo:service interface="com.gt.gmail.service.UserService" ref="userServiceImpl02" version="2.0.0"/>
+    <bean id="userServiceImpl02" class="com.gt.gmail.service.impl.UserServiceImpl"/>
+    <!--監控-->
+    <dubbo:monitor protocol="registry"/>
+
+</beans>

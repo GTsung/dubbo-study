@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo = "http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation = "http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://code.alibabatech.com/schema/dubbo
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <context:component-scan base-package="com.gt.gmail.service.impl"/>
+
+    <!--當前服務名稱指定-->
+    <dubbo:application name="order-service-consumer"/>
+
+    <!--注冊中心-->
+    <dubbo:registry address="zookeeper://localhost:2181"/>
+
+    <!--聲明需要調用的服務的接口，生成遠程代理-->
+    <dubbo:reference interface="com.gt.gmail.service.UserService"
+                     id="userService" check="false" version="2.0.0"/>
+
+    <!--監控-->
+    <dubbo:monitor protocol="registry"/>
+
+    <!--配置本地存根-->
+    <dubbo:service interface="com.gt.gmail.service.UserService"
+                   stub="com.gt.gmail.service.impl.UserServiceStub"/>
+</beans>
